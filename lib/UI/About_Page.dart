@@ -21,7 +21,9 @@ class _AboutClassState extends State<AboutClass> {
     deaths = response1.data['deaths'];
     cases = response1.data['cases'];
     mr = ((deaths / cases) * 100).toString();
-    mr = mr.substring(0, 5);
+    if (mr.length > 4) {
+      mr = mr.substring(0, 5);
+    }
     return mr;
   }
 

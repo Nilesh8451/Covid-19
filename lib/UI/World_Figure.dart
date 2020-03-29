@@ -23,7 +23,9 @@ class _WFClassState extends State<WFClass> {
     deaths = response1.data['deaths'];
     recovery = response1.data['recovered'];
     mr = ((deaths / cases) * 100).toString();
-    mr = mr.substring(0, 5);
+    if (mr.length > 4) {
+      mr = mr.substring(0, 5);
+    }
     return response1.data;
   }
 
