@@ -11,7 +11,7 @@ class _StatsClassState extends State<StatsClass> {
   List filterList = [];
 
   getStats() async {
-    var response = await Dio().get('https://corona.lmao.ninja/countries');
+    var response = await Dio().get('https://corona.lmao.ninja/v2/countries');
     return response.data;
   }
 

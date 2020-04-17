@@ -17,7 +17,7 @@ class _AboutClassState extends State<AboutClass> {
   int cases = 0;
 
   getCountries() async {
-    var response1 = await Dio().get('https://corona.lmao.ninja/all');
+    var response1 = await Dio().get('https://corona.lmao.ninja/v2/all');
     deaths = response1.data['deaths'];
     cases = response1.data['cases'];
     mr = ((deaths / cases) * 100).toString();

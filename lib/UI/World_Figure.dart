@@ -14,11 +14,11 @@ class _WFClassState extends State<WFClass> {
   String mr = '0';
   List TP = [{}];
   getCountries() async {
-    var response = await Dio().get('https://corona.lmao.ninja/countries');
+    var response = await Dio().get('https://corona.lmao.ninja/v2/countries');
     setState(() {
       countries = response.data;
     });
-    var response1 = await Dio().get('https://corona.lmao.ninja/all');
+    var response1 = await Dio().get('https://corona.lmao.ninja/v2/all');
     cases = response1.data['cases'];
     deaths = response1.data['deaths'];
     recovery = response1.data['recovered'];
