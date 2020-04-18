@@ -1,37 +1,40 @@
-import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
-class StatsClass extends StatefulWidget {
+class StatesInfoClass extends StatefulWidget {
+  List statsStateD = [];
+  List filterListSD = [];
+  StatesInfoClass(this.statsStateD, this.filterListSD);
   @override
-  _StatsClassState createState() => _StatsClassState();
+  _StatesClassState createState() =>
+      _StatesClassState(this.statsStateD, this.filterListSD);
 }
 
-class _StatsClassState extends State<StatsClass> {
-  List stats = [];
+class _StatesClassState extends State<StatesInfoClass> {
+  List statsState = [];
   List filterList = [];
 
-  getStats() async {
-    var response = await Dio().get('https://corona.lmao.ninja/v2/countries');
-    return response.data;
+  _StatesClassState(this.statsState, this.filterList);
+  getStatsState() async {
+    var response =
+        await Dio().get('https://api.rootnet.in/covid19-in/stats/latest');
+    print(response.data['data']['regional']);
+    return response.data['data']['regional'];
   }
 
   @override
   void initState() {
-    getStats().then((data) => {
-          setState(() => {stats = filterList = data})
-        });
-
     super.initState();
   }
 
-  Future<Null> refreshRe() async {
+  Future<Null> refreshReState() async {
     setState(() {
-      stats = [];
+      statsState = [];
     });
     await Future.delayed(Duration(seconds: 2));
-    getStats().then((data) => {
+    getStatsState().then((data) => {
           setState(() {
-            stats = data;
+            statsState = data;
           })
         });
     return null;
@@ -43,7 +46,7 @@ class _StatsClassState extends State<StatsClass> {
 
     return new Scaffold(
       backgroundColor: Color.fromARGB(255, 242, 242, 242),
-      appBar: new AppBar(title: new Text("Stats")),
+      // appBar: new AppBar(title: new Text("Stats")),
       body: Column(
         children: <Widget>[
           Padding(
@@ -51,12 +54,12 @@ class _StatsClassState extends State<StatsClass> {
             child: TextField(
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.all(10.0),
-                hintText: 'Enter Country Name....',
+                hintText: 'Enter State Name....',
               ),
               onChanged: (string) {
                 setState(() {
-                  stats = filterList
-                      .where((u) => (u['country']
+                  statsState = filterList
+                      .where((u) => (u['loc']
                           .toLowerCase()
                           .contains(string.toLowerCase())))
                       .toList();
@@ -66,11 +69,11 @@ class _StatsClassState extends State<StatsClass> {
           ),
           Expanded(
             child: Container(
-              child: stats.length > 0
+              child: statsState.length > 0
                   ? RefreshIndicator(
-                      onRefresh: refreshRe,
+                      onRefresh: refreshReState,
                       child: ListView.builder(
-                          itemCount: stats.length,
+                          itemCount: statsState.length,
                           itemBuilder: (BuildContext context, int index) {
                             return GestureDetector(
                               child: Container(
@@ -94,9 +97,10 @@ class _StatsClassState extends State<StatsClass> {
                                                     Expanded(
                                                       child: Text(
                                                         // "Hello",
-                                                        stats[index]['country'],
+                                                        statsState[index]
+                                                            ['loc'],
                                                         style: TextStyle(
-                                                            fontSize: 26,
+                                                            fontSize: 23,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w600),
@@ -115,8 +119,8 @@ class _StatsClassState extends State<StatsClass> {
                                                     Expanded(
                                                       child: Text(
                                                         'Cases:  ' +
-                                                            stats[index]
-                                                                    ['cases']
+                                                            statsState[index][
+                                                                    'totalConfirmed']
                                                                 .toString(),
                                                         // textAlign: TextAlign.left,
                                                         style: TextStyle(
@@ -133,9 +137,9 @@ class _StatsClassState extends State<StatsClass> {
                                                   children: <Widget>[
                                                     Expanded(
                                                       child: Text(
-                                                        'Todays Cases:  ' +
-                                                            stats[index][
-                                                                    'todayCases']
+                                                        'Indian:  ' +
+                                                            statsState[index][
+                                                                    'confirmedCasesIndian']
                                                                 .toString(),
                                                         // textAlign: TextAlign.left,
                                                         style: TextStyle(
@@ -152,8 +156,46 @@ class _StatsClassState extends State<StatsClass> {
                                                   children: <Widget>[
                                                     Expanded(
                                                       child: Text(
-                                                        'Deaths: ' +
-                                                            stats[index]
+                                                        'Foreigner:  ' +
+                                                            statsState[index][
+                                                                    'confirmedCasesForeign']
+                                                                .toString(),
+                                                        // textAlign: TextAlign.left,
+                                                        style: TextStyle(
+                                                            fontSize: 19),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(bottom: 5),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        'Recovered: ' +
+                                                            statsState[index][
+                                                                    'discharged']
+                                                                .toString(),
+                                                        // textAlign: TextAlign.left,
+                                                        style: TextStyle(
+                                                            fontSize: 19),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(bottom: 5),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        'Deaths:  ' +
+                                                            statsState[index]
                                                                     ['deaths']
                                                                 .toString(),
                                                         // textAlign: TextAlign.left,
@@ -170,95 +212,21 @@ class _StatsClassState extends State<StatsClass> {
                                                 child: Row(
                                                   children: <Widget>[
                                                     Expanded(
-                                                      child: Text(
-                                                        'Todays Death:  ' +
-                                                            stats[index][
-                                                                    'todayDeaths']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Recovered:  ' +
-                                                            stats[index][
-                                                                    'recovered']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Active:  ' +
-                                                            stats[index]
-                                                                    ['active']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Critical:  ' +
-                                                            stats[index]
-                                                                    ['critical']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: ((stats[index]['deaths'] /
-                                                                          stats[index]
+                                                      child: ((statsState[index]
                                                                               [
-                                                                              'cases']) *
+                                                                              'deaths'] /
+                                                                          statsState[index]
+                                                                              [
+                                                                              'totalConfirmed']) *
                                                                       100)
                                                                   .toString()
                                                                   .length >
                                                               4
                                                           ? Text(
                                                               'Mortality Rate:  ' +
-                                                                  ((stats[index]['deaths'] /
-                                                                              stats[index][
-                                                                                  'cases']) *
+                                                                  ((statsState[index]['deaths'] /
+                                                                              statsState[index][
+                                                                                  'totalConfirmed']) *
                                                                           100)
                                                                       .toString()
                                                                       .substring(
@@ -270,8 +238,8 @@ class _StatsClassState extends State<StatsClass> {
                                                             )
                                                           : Text(
                                                               'Mortality Rate:  ' +
-                                                                  ((stats[index]['deaths'] /
-                                                                              stats[index]['cases']) *
+                                                                  ((statsState[index]['deaths'] /
+                                                                              statsState[index]['totalConfirmed']) *
                                                                           100)
                                                                       .toString() +
                                                                   '%',

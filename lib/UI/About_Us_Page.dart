@@ -59,7 +59,7 @@ class AboUsClass extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: SelectableText(
-                              "INSTA ID: nileshchavan45",
+                              "INSTA ID: the_voyager26",
                               style: TextStyle(
                                   fontSize: 15, fontWeight: FontWeight.w500),
                             ),

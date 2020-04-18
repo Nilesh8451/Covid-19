@@ -4,7 +4,9 @@ import 'package:corona_details/UI/Hospitals_Page.dart';
 import 'package:corona_details/UI/NavBar_Bottom.dart';
 import 'package:corona_details/UI/News_Page.dart';
 import 'package:corona_details/UI/Precautions_Page.dart';
-import 'package:corona_details/UI/Stats_Page.dart';
+// import 'package:corona_details/UI/Stats_Main.dart';
+import 'package:corona_details/UI/Stats_Main_Page.dart';
+// import 'package:corona_details/UI/Stats_Page.dart';
 import 'package:corona_details/UI/World_Figure.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +27,11 @@ class _MyAppState extends State<MyApp> {
       routes: <String, WidgetBuilder>{
         '/a': (BuildContext context) => About(),
         '/n': (BuildContext context) => News(),
-        '/f': (BuildContext context) => Stats(),
+        // '/f': (BuildContext context) => Stats(),
+
+        // '/f': (BuildContext context) => StatsMain(),
+
+        '/f': (BuildContext context) => StatsMainPage(),
         '/s': (BuildContext context) => Precautions(),
         '/h': (BuildContext context) => Hospitals(),
         '/k': (BuildContext context) => AUS(),
@@ -101,12 +107,12 @@ class _HomePageState extends State<HomePage> {
                         Navigator.of(context).pushNamed("/h");
                       }),
                   new Divider(),
-                  new ListTile(
-                    title: new Text("Close"),
-                    leading: new Icon(Icons.cancel),
-                    trailing: new Icon(Icons.close),
-                    onTap: () => Navigator.of(context).pop(),
-                  ),
+                  // new ListTile(
+                  //   title: new Text("Close"),
+                  //   leading: new Icon(Icons.cancel),
+                  //   trailing: new Icon(Icons.close),
+                  //   onTap: () => Navigator.of(context).pop(),
+                  // ),
                 ],
               ),
             ),
@@ -129,13 +135,6 @@ class News extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NewsClass();
-  }
-}
-
-class Stats extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return StatsClass();
   }
 }
 
