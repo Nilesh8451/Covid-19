@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +17,10 @@ class _CountriesInfoClassState extends State<CountriesInfoClass> {
   List stats = [];
   List filterList = [];
   _CountriesInfoClassState(this.stats, this.filterList);
+
+  StreamSubscription<ConnectivityResult> subscription;
+  Connectivity connectivity;
+
   getStats() async {
     var response = await Dio().get('https://corona.lmao.ninja/v2/countries');
     return response.data;
@@ -22,20 +28,41 @@ class _CountriesInfoClassState extends State<CountriesInfoClass> {
 
   @override
   void initState() {
+    connectivity = new Connectivity();
+    subscription =
+        connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      // print(result);
+      if (result == ConnectivityResult.wifi ||
+          result == ConnectivityResult.mobile) {
+        // print(result);
+      }
+    });
     super.initState();
   }
 
   Future<Null> refreshRe() async {
-    setState(() {
-      stats = [];
-    });
-    await Future.delayed(Duration(seconds: 2));
-    getStats().then((data) => {
-          setState(() {
-            stats = data;
-          })
+    connectivity.checkConnectivity().then((onValue) => {
+          if (onValue == ConnectivityResult.wifi ||
+              onValue == ConnectivityResult.mobile)
+            {
+              setState(() {
+                stats = [];
+              }),
+              Future.delayed(Duration(seconds: 2)),
+              getStats().then((data) => {
+                    setState(() {
+                      stats = data;
+                    })
+                  }),
+            }
         });
     return null;
+  }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
   }
 
   @override

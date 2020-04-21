@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +20,10 @@ class _DistrictInfoClassState extends State<DistrictInfoClass> {
   List filterListD = [];
 
   _DistrictInfoClassState(this.districts, this.filterListD);
+
+  StreamSubscription<ConnectivityResult> subscription;
+  Connectivity connectivity;
+
   getStatsDistrict() async {
     var response = await Dio()
         .get('https://api.covid19india.org/state_district_wise.json');
@@ -40,19 +47,40 @@ class _DistrictInfoClassState extends State<DistrictInfoClass> {
   }
 
   Future<Null> refreshRe() async {
-    setState(() {
-      districts = [];
-    });
-    await Future.delayed(Duration(seconds: 2));
-    getStatsDistrict().then((data) => {
-          setState(() => {districts = filterListD = data})
+    connectivity.checkConnectivity().then((onValue) => {
+          if (onValue == ConnectivityResult.wifi ||
+              onValue == ConnectivityResult.mobile)
+            {
+              setState(() {
+                districts = [];
+              }),
+              Future.delayed(Duration(seconds: 2)),
+              getStatsDistrict().then((data) => {
+                    setState(() => {districts = filterListD = data})
+                  })
+            }
         });
     return null;
   }
 
   @override
   void initState() {
+    connectivity = new Connectivity();
+    subscription =
+        connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
+      // print(result);
+      if (result == ConnectivityResult.wifi ||
+          result == ConnectivityResult.mobile) {
+        // print(result);
+      }
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -132,11 +160,52 @@ class _DistrictInfoClassState extends State<DistrictInfoClass> {
                                                   children: <Widget>[
                                                     Expanded(
                                                       child: Text(
-                                                        'Cases:  ' +
+                                                        'Total Cases:  ' +
                                                             districts[index]
                                                                         ['info']
                                                                     [
                                                                     'confirmed']
+                                                                .toString(),
+                                                        // textAlign: TextAlign.left,
+                                                        style: TextStyle(
+                                                            fontSize: 19),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(bottom: 5),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        'Active:  ' +
+                                                            districts[index]
+                                                                        ['info']
+                                                                    ['active']
+                                                                .toString(),
+                                                        // textAlign: TextAlign.left,
+                                                        style: TextStyle(
+                                                            fontSize: 19),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    EdgeInsets.only(bottom: 5),
+                                                child: Row(
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: Text(
+                                                        'Recovered:  ' +
+                                                            districts[index]
+                                                                        ['info']
+                                                                    [
+                                                                    'recovered']
                                                                 .toString(),
                                                         // textAlign: TextAlign.left,
                                                         style: TextStyle(
