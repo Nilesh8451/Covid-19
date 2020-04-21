@@ -17,14 +17,21 @@ class _AboutClassState extends State<AboutClass> {
   int cases = 0;
 
   getCountries() async {
-    var response1 = await Dio().get('https://corona.lmao.ninja/v2/all');
-    deaths = response1.data['deaths'];
-    cases = response1.data['cases'];
-    mr = ((deaths / cases) * 100).toString();
-    if (mr.length > 4) {
-      mr = mr.substring(0, 5);
+    try {
+      var response1 = await Dio().get('https://corona.lmao.ninja/v2/all');
+      deaths = response1.data['deaths'];
+      cases = response1.data['cases'];
+      mr = ((deaths / cases) * 100).toString();
+      if (mr.length > 4) {
+        mr = mr.substring(0, 5);
+      }
+      setState(() {
+        mr1 = mr;
+      });
+    } catch (e) {
+      // print(e);
+      // return;
     }
-    return mr;
   }
 
   Future launchURL(String url) async {
@@ -37,9 +44,7 @@ class _AboutClassState extends State<AboutClass> {
 
   @override
   void initState() {
-    getCountries().then((data) => {
-          setState(() => {mr1 = data})
-        });
+    getCountries();
 
     super.initState();
   }

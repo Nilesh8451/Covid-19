@@ -22,8 +22,12 @@ class _CountriesInfoClassState extends State<CountriesInfoClass> {
   Connectivity connectivity;
 
   getStats() async {
-    var response = await Dio().get('https://corona.lmao.ninja/v2/countries');
-    return response.data;
+    try {
+      var response = await Dio().get('https://corona.lmao.ninja/v2/countries');
+      return response.data;
+    } catch (e) {
+      return;
+    }
   }
 
   @override

@@ -25,25 +25,27 @@ class _DistrictInfoClassState extends State<DistrictInfoClass> {
   Connectivity connectivity;
 
   getStatsDistrict() async {
-    var response = await Dio()
-        .get('https://api.covid19india.org/state_district_wise.json');
-    // print(response.data);
+    try {
+      var response = await Dio()
+          .get('https://api.covid19india.org/state_district_wise.json');
 
-    response.data.forEach((k, v) => {
-          // print('-----------------------------${k}: ${v}'),
-          v.forEach((k, v) => {
-                // print('********************** ${k}: ${v}'),
-                v.forEach((k, v) => {
-                      // print('********************** ${k}: ${v}'),
-                      obj = {'dis': k, 'info': v},
-                      districts.add(obj),
-                      // filterListD.add(obj)
-                    })
-              })
-        });
-    // print(districts);
+      response.data.forEach((k, v) => {
+            // print('*************** ${k}: ${v}'),
+            v = v['districtData'],
+            v.forEach((k, v) => {
+                  // print('^^^^^^^^^^^^^ ${k}:  ${v}'),
+                  // v.forEach((k, v) => {
+                  obj = {'dis': k, 'info': v},
+                  districts.add(obj),
+                  //     })
+                })
+          });
 
-    return districts;
+      return districts;
+    } catch (e) {
+      // print(e);
+      return;
+    }
   }
 
   Future<Null> refreshRe() async {

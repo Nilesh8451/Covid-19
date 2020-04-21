@@ -208,7 +208,7 @@ class _NewsClassState extends State<NewsClass> {
           body: Column(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 50),
+                padding: EdgeInsets.only(top: 100),
               ),
               Image.asset('assets/NoInCo2.png'),
             ],

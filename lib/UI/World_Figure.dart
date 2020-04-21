@@ -10,7 +10,7 @@ class WFClass extends StatefulWidget {
 }
 
 class _WFClassState extends State<WFClass> {
-  List countries = null;
+  var countries = null;
   int cases = 0;
   int deaths = 0;
   int recovery = 0;
@@ -23,19 +23,23 @@ class _WFClassState extends State<WFClass> {
   List TP = [{}];
 
   getCountries() async {
-    var response = await Dio().get('https://corona.lmao.ninja/v2/countries');
-    setState(() {
-      countries = response.data;
-    });
-    var response1 = await Dio().get('https://corona.lmao.ninja/v2/all');
-    cases = response1.data['cases'];
-    deaths = response1.data['deaths'];
-    recovery = response1.data['recovered'];
-    mr = ((deaths / cases) * 100).toString();
-    if (mr.length > 4) {
-      mr = mr.substring(0, 5);
+    try {
+      var response1 = await Dio().get('https://corona.lmao.ninja/v2/all');
+      setState(() {
+        countries = response1.data;
+      });
+      cases = response1.data['cases'];
+      deaths = response1.data['deaths'];
+      recovery = response1.data['recovered'];
+      mr = ((deaths / cases) * 100).toString();
+      if (mr.length > 4) {
+        mr = mr.substring(0, 5);
+      }
+      return response1.data;
+    } catch (e) {
+      // print(e);
     }
-    return response1.data;
+    return;
   }
 
   Future<Null> refreshC() async {
@@ -47,11 +51,7 @@ class _WFClassState extends State<WFClass> {
                 countries = null;
               }),
               Future.delayed(Duration(seconds: 2)),
-              getCountries().then((data) => {
-                    setState(() {
-                      countries = data;
-                    })
-                  }),
+              getCountries().then((data) => {setState(() {})}),
             }
         });
 
@@ -303,7 +303,7 @@ class _WFClassState extends State<WFClass> {
           body: Column(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 50),
+                padding: EdgeInsets.only(top: 100),
               ),
               Image.asset('assets/NoInCo2.png'),
             ],

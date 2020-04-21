@@ -23,10 +23,14 @@ class _StatesClassState extends State<StatesInfoClass> {
   Connectivity connectivity;
 
   getStatsState() async {
-    var response =
-        await Dio().get('https://api.rootnet.in/covid19-in/stats/latest');
-    print(response.data['data']['regional']);
-    return response.data['data']['regional'];
+    try {
+      var response =
+          await Dio().get('https://api.rootnet.in/covid19-in/stats/latest');
+      // print(response.data['data']['regional']);
+      return response.data['data']['regional'];
+    } catch (e) {
+      return;
+    }
   }
 
   @override

@@ -31,34 +31,49 @@ class _StatsMainState extends State<StatsMainPage>
   TabController tabController;
 
   getStats() async {
-    var response = await Dio().get('https://corona.lmao.ninja/v2/countries');
-    return response.data;
+    try {
+      var response = await Dio().get('https://corona.lmao.ninja/v2/countries');
+      return response.data;
+    } catch (e) {
+      // print(e);
+      return;
+    }
   }
 
   getStatsState() async {
-    var response =
-        await Dio().get('https://api.rootnet.in/covid19-in/stats/latest');
+    try {
+      var response =
+          await Dio().get('https://api.rootnet.in/covid19-in/stats/latest');
 
-    return response.data['data']['regional'];
+      return response.data['data']['regional'];
+    } catch (e) {
+      // print(e);
+      return;
+    }
   }
 
   getStatsDistrict() async {
-    var response = await Dio()
-        .get('https://api.covid19india.org/state_district_wise.json');
+    try {
+      var response = await Dio()
+          .get('https://api.covid19india.org/state_district_wise.json');
 
-    response.data.forEach((k, v) => {
-          // print('*************** ${k}: ${v}'),
-          v = v['districtData'],
-          v.forEach((k, v) => {
-                // print('^^^^^^^^^^^^^ ${k}:  ${v}'),
-                // v.forEach((k, v) => {
-                obj = {'dis': k, 'info': v},
-                districts.add(obj),
-                //     })
-              })
-        });
+      response.data.forEach((k, v) => {
+            // print('*************** ${k}: ${v}'),
+            v = v['districtData'],
+            v.forEach((k, v) => {
+                  // print('^^^^^^^^^^^^^ ${k}:  ${v}'),
+                  // v.forEach((k, v) => {
+                  obj = {'dis': k, 'info': v},
+                  districts.add(obj),
+                  //     })
+                })
+          });
 
-    return districts;
+      return districts;
+    } catch (e) {
+      // print(e);
+      return;
+    }
   }
 
   @override
@@ -165,7 +180,7 @@ class _StatsMainState extends State<StatsMainPage>
           body: Column(
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 50),
+                padding: EdgeInsets.only(top: 100),
               ),
               Image.asset('assets/NoInCo2.png'),
             ],
