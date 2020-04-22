@@ -109,6 +109,19 @@ class _DistrictInfoClassState extends State<DistrictInfoClass> {
                           .contains(string.toLowerCase())))
                       .toList();
                 });
+
+                if (districts.length == 0) {
+                  // print(districts);
+                  districts.add({
+                    'selfAdded': 'Yes',
+                    'dis': 'No Such District Affected',
+                    'info': {
+                      'active': null,
+                      'confirmed': null,
+                      'recovered': null
+                    }
+                  });
+                }
               },
             ),
           ),
@@ -140,83 +153,117 @@ class _DistrictInfoClassState extends State<DistrictInfoClass> {
                                                 child: Row(
                                                   children: <Widget>[
                                                     Expanded(
-                                                      child: Text(
-                                                        // "Hello",
-                                                        districts[index]['dis'],
-                                                        style: TextStyle(
-                                                            fontSize: 23,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                      ),
+                                                      child: districts[index][
+                                                                  'selfAdded'] !=
+                                                              'Yes'
+                                                          ? Text(
+                                                              // "Hello",
+                                                              districts[index]
+                                                                  ['dis'],
+                                                              style: TextStyle(
+                                                                  fontSize: 23,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
+                                                            )
+                                                          : Text(
+                                                              // "Hello",
+                                                              districts[index]
+                                                                  ['dis'],
+                                                              style: TextStyle(
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Total Cases:  ' +
-                                                            districts[index]
-                                                                        ['info']
-                                                                    [
-                                                                    'confirmed']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
+                                              districts[index]['info']
+                                                          ['confirmed'] !=
+                                                      null
+                                                  ? Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 5),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: Text(
+                                                              'Total Cases:  ' +
+                                                                  districts[index]
+                                                                              [
+                                                                              'info']
+                                                                          [
+                                                                          'confirmed']
+                                                                      .toString(),
+                                                              // textAlign: TextAlign.left,
+                                                              style: TextStyle(
+                                                                  fontSize: 19),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Active:  ' +
-                                                            districts[index]
-                                                                        ['info']
-                                                                    ['active']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
+                                                    )
+                                                  : Container(),
+                                              districts[index]['info']
+                                                          ['active'] !=
+                                                      null
+                                                  ? Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 5),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: Text(
+                                                              'Active:  ' +
+                                                                  districts[index]
+                                                                              [
+                                                                              'info']
+                                                                          [
+                                                                          'active']
+                                                                      .toString(),
+                                                              // textAlign: TextAlign.left,
+                                                              style: TextStyle(
+                                                                  fontSize: 19),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Recovered:  ' +
-                                                            districts[index]
-                                                                        ['info']
-                                                                    [
-                                                                    'recovered']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
+                                                    )
+                                                  : Container(),
+                                              districts[index]['info']
+                                                          ['recovered'] !=
+                                                      null
+                                                  ? Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 5),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: Text(
+                                                              'Recovered:  ' +
+                                                                  districts[index]
+                                                                              [
+                                                                              'info']
+                                                                          [
+                                                                          'recovered']
+                                                                      .toString(),
+                                                              // textAlign: TextAlign.left,
+                                                              style: TextStyle(
+                                                                  fontSize: 19),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+                                                    )
+                                                  : Container(),
                                             ],
                                           ),
                                         ),

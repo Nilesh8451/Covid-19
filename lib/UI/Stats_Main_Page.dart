@@ -33,6 +33,9 @@ class _StatsMainState extends State<StatsMainPage>
   getStats() async {
     try {
       var response = await Dio().get('https://corona.lmao.ninja/v2/countries');
+      setState(() {
+        stats = filterListC = response.data;
+      });
       return response.data;
     } catch (e) {
       // print(e);
@@ -44,7 +47,9 @@ class _StatsMainState extends State<StatsMainPage>
     try {
       var response =
           await Dio().get('https://api.rootnet.in/covid19-in/stats/latest');
-
+      setState(() {
+        statsState = filterListS = response.data['data']['regional'];
+      });
       return response.data['data']['regional'];
     } catch (e) {
       // print(e);
@@ -68,7 +73,9 @@ class _StatsMainState extends State<StatsMainPage>
                   //     })
                 })
           });
-
+      setState(() {
+        districts = filterListD = districts;
+      });
       return districts;
     } catch (e) {
       // print(e);
@@ -111,13 +118,13 @@ class _StatsMainState extends State<StatsMainPage>
 
   fetchData() {
     getStats().then((data) => {
-          setState(() => {stats = filterListC = data})
+          // setState(() => {stats = filterListC = data})
         });
     getStatsState().then((data) => {
-          setState(() => {statsState = filterListS = data})
+          // setState(() => {statsState = filterListS = data})
         });
     getStatsDistrict().then((data) => {
-          setState(() => {districts = filterListD = data})
+          // setState(() => {districts = filterListD = data})
         });
   }
 

@@ -20,12 +20,19 @@ class _NewsClassState extends State<NewsClass> {
   Connectivity connectivity;
 
   getNews() async {
-    // var response = await Dio().get(
-    // 'http://newsapi.org/v2/everything?q=corona-virus&apiKey=b0f757f46b7941c0a646532a3735a963');
-    var response = await Dio().get(
-        'http://newsapi.org/v2/top-headlines?country=in&apiKey=b0f757f46b7941c0a646532a3735a963');
-
-    return response.data['articles'];
+    try {
+      // var response = await Dio().get(
+      // 'http://newsapi.org/v2/everything?q=corona-virus&apiKey=b0f757f46b7941c0a646532a3735a963');
+      var response = await Dio().get(
+          'http://newsapi.org/v2/top-headlines?country=in&apiKey=b0f757f46b7941c0a646532a3735a963');
+      setState(() {
+        news = response.data['articles'];
+      });
+      return response.data['articles'];
+    } catch (e) {
+      // print(e);
+      return;
+    }
   }
 
   @override
@@ -58,7 +65,7 @@ class _NewsClassState extends State<NewsClass> {
 
   fetchData() {
     getNews().then((data) => {
-          setState(() => {news = data})
+          // setState(() => {news = data})
         });
   }
 
@@ -73,7 +80,7 @@ class _NewsClassState extends State<NewsClass> {
               Future.delayed(Duration(seconds: 2)),
               getNews().then((data) => {
                     setState(() {
-                      news = data;
+                      // news = data;
                     })
                   }),
             }

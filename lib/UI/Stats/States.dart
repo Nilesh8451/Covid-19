@@ -96,6 +96,19 @@ class _StatesClassState extends State<StatesInfoClass> {
                           .contains(string.toLowerCase())))
                       .toList();
                 });
+
+                if (statsState.length >= 0) {
+                  // print(statsState);
+                  statsState.add({
+                    'selfAdded': 'Yes',
+                    'loc': 'No Such State Affected',
+                    'confirmedCasesIndian': null,
+                    'discharged': null,
+                    'deaths': null,
+                    'confirmedCasesForeign': null,
+                    'totalConfirmed': null
+                  });
+                }
               },
             ),
           ),
@@ -127,161 +140,198 @@ class _StatesClassState extends State<StatesInfoClass> {
                                                 child: Row(
                                                   children: <Widget>[
                                                     Expanded(
-                                                      child: Text(
-                                                        // "Hello",
-                                                        statsState[index]
-                                                            ['loc'],
-                                                        style: TextStyle(
-                                                            fontSize: 23,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Cases:  ' +
-                                                            statsState[index][
-                                                                    'totalConfirmed']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Indian:  ' +
-                                                            statsState[index][
-                                                                    'confirmedCasesIndian']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Foreigner:  ' +
-                                                            statsState[index][
-                                                                    'confirmedCasesForeign']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Recovered: ' +
-                                                            statsState[index][
-                                                                    'discharged']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: Text(
-                                                        'Deaths:  ' +
-                                                            statsState[index]
-                                                                    ['deaths']
-                                                                .toString(),
-                                                        // textAlign: TextAlign.left,
-                                                        style: TextStyle(
-                                                            fontSize: 19),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Padding(
-                                                padding:
-                                                    EdgeInsets.only(bottom: 5),
-                                                child: Row(
-                                                  children: <Widget>[
-                                                    Expanded(
-                                                      child: ((statsState[index]
-                                                                              [
-                                                                              'deaths'] /
-                                                                          statsState[index]
-                                                                              [
-                                                                              'totalConfirmed']) *
-                                                                      100)
-                                                                  .toString()
-                                                                  .length >
-                                                              4
+                                                      child: statsState[index][
+                                                                  'selfAdded'] !=
+                                                              'Yes'
                                                           ? Text(
-                                                              'Mortality Rate:  ' +
-                                                                  ((statsState[index]['deaths'] /
-                                                                              statsState[index][
-                                                                                  'totalConfirmed']) *
-                                                                          100)
-                                                                      .toString()
-                                                                      .substring(
-                                                                          0,
-                                                                          5) +
-                                                                  '%',
+                                                              // "Hello",
+                                                              statsState[index]
+                                                                  ['loc'],
                                                               style: TextStyle(
-                                                                  fontSize: 19),
+                                                                  fontSize: 23,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .left,
                                                             )
                                                           : Text(
-                                                              'Mortality Rate:  ' +
-                                                                  ((statsState[index]['deaths'] /
-                                                                              statsState[index]['totalConfirmed']) *
-                                                                          100)
-                                                                      .toString() +
-                                                                  '%',
+                                                              // "Hello",
+                                                              statsState[index]
+                                                                  ['loc'],
                                                               style: TextStyle(
-                                                                  fontSize: 19),
+                                                                  fontSize: 20,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
                                                             ),
                                                     ),
                                                   ],
                                                 ),
                                               ),
+                                              statsState[index]
+                                                          ['totalConfirmed'] !=
+                                                      null
+                                                  ? Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 5),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: Text(
+                                                              'Cases:  ' +
+                                                                  statsState[index]
+                                                                          [
+                                                                          'totalConfirmed']
+                                                                      .toString(),
+                                                              // textAlign: TextAlign.left,
+                                                              style: TextStyle(
+                                                                  fontSize: 19),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                              statsState[index][
+                                                          'confirmedCasesIndian'] !=
+                                                      null
+                                                  ? Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 5),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: Text(
+                                                              'Indian:  ' +
+                                                                  statsState[index]
+                                                                          [
+                                                                          'confirmedCasesIndian']
+                                                                      .toString(),
+                                                              // textAlign: TextAlign.left,
+                                                              style: TextStyle(
+                                                                  fontSize: 19),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                              statsState[index][
+                                                          'confirmedCasesForeign'] !=
+                                                      null
+                                                  ? Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 5),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: Text(
+                                                              'Foreigner:  ' +
+                                                                  statsState[index]
+                                                                          [
+                                                                          'confirmedCasesForeign']
+                                                                      .toString(),
+                                                              // textAlign: TextAlign.left,
+                                                              style: TextStyle(
+                                                                  fontSize: 19),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                              statsState[index]['discharged'] !=
+                                                      null
+                                                  ? Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 5),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: Text(
+                                                              'Recovered: ' +
+                                                                  statsState[index]
+                                                                          [
+                                                                          'discharged']
+                                                                      .toString(),
+                                                              // textAlign: TextAlign.left,
+                                                              style: TextStyle(
+                                                                  fontSize: 19),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                              statsState[index]['deaths'] !=
+                                                      null
+                                                  ? Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 5),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: Text(
+                                                              'Deaths:  ' +
+                                                                  statsState[index]
+                                                                          [
+                                                                          'deaths']
+                                                                      .toString(),
+                                                              // textAlign: TextAlign.left,
+                                                              style: TextStyle(
+                                                                  fontSize: 19),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Container(),
+                                              statsState[index]['deaths'] !=
+                                                      null
+                                                  ? Padding(
+                                                      padding: EdgeInsets.only(
+                                                          bottom: 5),
+                                                      child: Row(
+                                                        children: <Widget>[
+                                                          Expanded(
+                                                            child: ((statsState[index]['deaths'] /
+                                                                                statsState[index]['totalConfirmed']) *
+                                                                            100)
+                                                                        .toString()
+                                                                        .length >
+                                                                    4
+                                                                ? Text(
+                                                                    'Mortality Rate:  ' +
+                                                                        ((statsState[index]['deaths'] / statsState[index]['totalConfirmed']) *
+                                                                                100)
+                                                                            .toString()
+                                                                            .substring(0,
+                                                                                5) +
+                                                                        '%',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            19),
+                                                                  )
+                                                                : Text(
+                                                                    'Mortality Rate:  ' +
+                                                                        ((statsState[index]['deaths'] / statsState[index]['totalConfirmed']) *
+                                                                                100)
+                                                                            .toString() +
+                                                                        '%',
+                                                                    style: TextStyle(
+                                                                        fontSize:
+                                                                            19),
+                                                                  ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )
+                                                  : Container(),
                                             ],
                                           ),
                                         ),

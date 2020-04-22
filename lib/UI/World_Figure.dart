@@ -28,6 +28,7 @@ class _WFClassState extends State<WFClass> {
       setState(() {
         countries = response1.data;
       });
+      // print(response1.data);
       cases = response1.data['cases'];
       deaths = response1.data['deaths'];
       recovery = response1.data['recovered'];
@@ -67,6 +68,7 @@ class _WFClassState extends State<WFClass> {
       if (result == ConnectivityResult.wifi ||
           result == ConnectivityResult.mobile) {
         setState(() {});
+        getCountries().then((data) => {});
         statusre = 'Conn';
       }
     });
@@ -82,7 +84,7 @@ class _WFClassState extends State<WFClass> {
   Widget build(BuildContext context) {
     double deviceWidth = MediaQuery.of(context).size.width;
     if (statusre == 'Conn') {
-      getCountries();
+      // getCountries();
       return Container(
         padding: EdgeInsets.all(30.0),
         child: countries != null
