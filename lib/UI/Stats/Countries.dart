@@ -99,7 +99,6 @@ class _CountriesInfoClassState extends State<CountriesInfoClass> {
                     'country': 'No Such Country Affected',
                     'countryInfo': {
                       "flag": null,
-                      // "https://corona.lmao.ninja/assets/img/flags/in.png"
                     },
                     'cases': null,
                     'deaths': null,
@@ -109,7 +108,6 @@ class _CountriesInfoClassState extends State<CountriesInfoClass> {
                     'active': null,
                     'critical': null
                   });
-                  // print(stats);
                 }
               },
             ),
@@ -398,7 +396,13 @@ class _CountriesInfoClassState extends State<CountriesInfoClass> {
                           }),
                     )
                   : Center(
-                      child: CircularProgressIndicator(),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.grey,
+                        ),
+                      ),
                     ),
             ),
           ),

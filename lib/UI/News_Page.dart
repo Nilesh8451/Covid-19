@@ -202,7 +202,13 @@ class _NewsClassState extends State<NewsClass> {
                       }),
                 )
               : Center(
-                  child: CircularProgressIndicator(),
+                  child: Container(
+                    width: 50,
+                    height: 50,
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.grey,
+                    ),
+                  ),
                 ),
         ),
       );

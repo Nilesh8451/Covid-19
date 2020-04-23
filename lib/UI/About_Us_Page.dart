@@ -26,18 +26,13 @@ class AboUsClass extends StatelessWidget {
                 padding: EdgeInsets.only(top: 15, left: 20, bottom: 25),
                 child: Wrap(
                   alignment: WrapAlignment.end,
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    // Expanded(
                     Image.asset(
                       'assets/Nilesh1.jpg',
                       width: 100,
                       height: 100,
-                      // color: Colors.black,
                       alignment: Alignment.centerLeft,
                     ),
-                    // Expanded(
                     Padding(
                       padding: EdgeInsets.only(left: 10, top: 20),
                       child: Column(
@@ -82,18 +77,13 @@ class AboUsClass extends StatelessWidget {
                 padding: EdgeInsets.only(top: 15, left: 20, bottom: 30),
                 child: Wrap(
                   alignment: WrapAlignment.end,
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    // Expanded(
                     Image.asset(
                       'assets/Kamesh.jpg',
                       width: 110,
                       height: 115,
-                      // color: Colors.black,
                       alignment: Alignment.centerLeft,
                     ),
-                    // Expanded(
                     Padding(
                       padding: EdgeInsets.only(left: 0, top: 20, right: 20),
                       child: Column(

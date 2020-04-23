@@ -9,11 +9,8 @@ class AboutClass extends StatefulWidget {
 
 class _AboutClassState extends State<AboutClass> {
   String mr = '0';
-
   String mr1 = '';
-
   int deaths = 0;
-
   int cases = 0;
 
   getCountries() async {
@@ -28,10 +25,7 @@ class _AboutClassState extends State<AboutClass> {
       setState(() {
         mr1 = mr;
       });
-    } catch (e) {
-      // print(e);
-      // return;
-    }
+    } catch (e) {}
   }
 
   Future launchURL(String url) async {
@@ -51,7 +45,6 @@ class _AboutClassState extends State<AboutClass> {
 
   @override
   Widget build(BuildContext context) {
-    // mr1 = getCountries();
     return new Scaffold(
       backgroundColor: Color.fromARGB(255, 242, 242, 242),
       appBar: new AppBar(title: new Text("About Corona Virus")),

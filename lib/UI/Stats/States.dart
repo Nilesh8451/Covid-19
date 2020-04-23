@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -38,7 +37,6 @@ class _StatesClassState extends State<StatesInfoClass> {
     connectivity = new Connectivity();
     subscription =
         connectivity.onConnectivityChanged.listen((ConnectivityResult result) {
-      // print(result);
       if (result == ConnectivityResult.wifi ||
           result == ConnectivityResult.mobile) {
         // print(result);
@@ -98,7 +96,6 @@ class _StatesClassState extends State<StatesInfoClass> {
                 });
 
                 if (statsState.length >= 0) {
-                  // print(statsState);
                   statsState.add({
                     'selfAdded': 'Yes',
                     'loc': 'No Such State Affected',
@@ -344,7 +341,13 @@ class _StatesClassState extends State<StatesInfoClass> {
                           }),
                     )
                   : Center(
-                      child: CircularProgressIndicator(),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.grey,
+                        ),
+                      ),
                     ),
             ),
           ),

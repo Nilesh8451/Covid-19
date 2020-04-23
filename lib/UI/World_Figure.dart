@@ -1,7 +1,8 @@
 import 'dart:async';
-
 import 'package:connectivity/connectivity.dart';
+import 'package:corona_details/UI/Drawer_Main.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class WFClass extends StatefulWidget {
@@ -16,6 +17,7 @@ class _WFClassState extends State<WFClass> {
   int recovery = 0;
   String mr = '0';
   var statusre;
+  bool done = false;
 
   StreamSubscription<ConnectivityResult> subscription;
   Connectivity connectivity;
@@ -59,6 +61,16 @@ class _WFClassState extends State<WFClass> {
     return null;
   }
 
+  Future<Timer> loadData() async {
+    return new Timer(Duration(seconds: 4), onDoneLoading);
+  }
+
+  onDoneLoading() async {
+    setState(() {
+      done = true;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -72,6 +84,7 @@ class _WFClassState extends State<WFClass> {
         statusre = 'Conn';
       }
     });
+    loadData();
   }
 
   @override
@@ -82,226 +95,257 @@ class _WFClassState extends State<WFClass> {
 
   @override
   Widget build(BuildContext context) {
-    double deviceWidth = MediaQuery.of(context).size.width;
-    if (statusre == 'Conn') {
-      // getCountries();
-      return Container(
-        padding: EdgeInsets.all(30.0),
-        child: countries != null
-            ? RefreshIndicator(
-                onRefresh: refreshC,
-                child: ListView.builder(
-                    itemCount: TP.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return GestureDetector(
-                        child: Container(
-                          padding: EdgeInsets.only(left: 10.0, right: 10.0),
-                          child: Column(
-                            children: <Widget>[
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(left: 7.0, bottom: 20.0),
-                                child: Text(
-                                  "World Figure",
-                                  style: TextStyle(
-                                      fontSize: 23,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ),
-                              Card(
-                                child: Container(
-                                  // width: 300,
-                                  width: deviceWidth * 0.80,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(20),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(children: <Widget>[
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 4),
-                                              child: Text(
-                                                'Cases',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(fontSize: 21),
-                                              ),
-                                            ),
-                                          ),
-                                        ]),
-                                        Row(
+    if (done == true) {
+      double deviceWidth = MediaQuery.of(context).size.width;
+      if (statusre == 'Conn') {
+        return new Scaffold(
+          appBar: new AppBar(
+            title: new Text("COVID-19"),
+            elevation:
+                defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
+          ),
+          body: Container(
+            padding: EdgeInsets.all(30.0),
+            child: countries != null
+                ? RefreshIndicator(
+                    onRefresh: refreshC,
+                    child: ListView.builder(
+                        itemCount: TP.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            child: Container(
+                              padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 7.0, bottom: 20.0),
+                                    child: Text(
+                                      "World Figure",
+                                      style: TextStyle(
+                                          fontSize: 23,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ),
+                                  Card(
+                                    child: Container(
+                                      // width: 300,
+                                      width: deviceWidth * 0.80,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(20),
+                                        child: Column(
                                           children: <Widget>[
-                                            Expanded(
-                                                child: Image.asset(
-                                              'assets/count.png',
-                                              width: 40,
-                                              height: 40,
-                                              color: Colors.black,
-                                              alignment: Alignment.centerLeft,
-                                            )),
-                                            Expanded(
-                                              child: Text(
-                                                '$cases',
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(fontSize: 21),
+                                            Row(children: <Widget>[
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 4),
+                                                  child: Text(
+                                                    'Cases',
+                                                    textAlign: TextAlign.left,
+                                                    style:
+                                                        TextStyle(fontSize: 21),
+                                                  ),
+                                                ),
                                               ),
+                                            ]),
+                                            Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                    child: Image.asset(
+                                                  'assets/count.png',
+                                                  width: 40,
+                                                  height: 40,
+                                                  color: Colors.black,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                )),
+                                                Expanded(
+                                                  child: Text(
+                                                    '$cases',
+                                                    textAlign: TextAlign.right,
+                                                    style:
+                                                        TextStyle(fontSize: 21),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              Card(
-                                child: Container(
-                                  // width: 300,
-                                  width: deviceWidth * 0.80,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(20),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(children: <Widget>[
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 4),
-                                              child: Text(
-                                                'Deaths',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(fontSize: 21),
-                                              ),
-                                            ),
-                                          ),
-                                        ]),
-                                        Row(
+                                  Card(
+                                    child: Container(
+                                      // width: 300,
+                                      width: deviceWidth * 0.80,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(20),
+                                        child: Column(
                                           children: <Widget>[
-                                            Expanded(
-                                                child: Image.asset(
-                                              'assets/death.png',
-                                              width: 40,
-                                              height: 40,
-                                              color: Colors.black,
-                                              alignment: Alignment.centerLeft,
-                                            )),
-                                            Expanded(
-                                              child: Text(
-                                                '$deaths',
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(fontSize: 21),
+                                            Row(children: <Widget>[
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 4),
+                                                  child: Text(
+                                                    'Deaths',
+                                                    textAlign: TextAlign.left,
+                                                    style:
+                                                        TextStyle(fontSize: 21),
+                                                  ),
+                                                ),
                                               ),
+                                            ]),
+                                            Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                    child: Image.asset(
+                                                  'assets/death.png',
+                                                  width: 40,
+                                                  height: 40,
+                                                  color: Colors.black,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                )),
+                                                Expanded(
+                                                  child: Text(
+                                                    '$deaths',
+                                                    textAlign: TextAlign.right,
+                                                    style:
+                                                        TextStyle(fontSize: 21),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              Card(
-                                child: Container(
-                                  // width: 300,
-                                  width: deviceWidth * 0.80,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(20),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(children: <Widget>[
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 4),
-                                              child: Text(
-                                                'Recovery',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(fontSize: 21),
-                                              ),
-                                            ),
-                                          ),
-                                        ]),
-                                        Row(
+                                  Card(
+                                    child: Container(
+                                      // width: 300,
+                                      width: deviceWidth * 0.80,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(20),
+                                        child: Column(
                                           children: <Widget>[
-                                            Expanded(
-                                                child: Image.asset(
-                                              'assets/patient.png',
-                                              width: 40,
-                                              height: 40,
-                                              color: Colors.black,
-                                              alignment: Alignment.centerLeft,
-                                            )),
-                                            Expanded(
-                                              child: Text(
-                                                '$recovery',
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(fontSize: 21),
+                                            Row(children: <Widget>[
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 4),
+                                                  child: Text(
+                                                    'Recovery',
+                                                    textAlign: TextAlign.left,
+                                                    style:
+                                                        TextStyle(fontSize: 21),
+                                                  ),
+                                                ),
                                               ),
+                                            ]),
+                                            Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                    child: Image.asset(
+                                                  'assets/patient.png',
+                                                  width: 40,
+                                                  height: 40,
+                                                  color: Colors.black,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                )),
+                                                Expanded(
+                                                  child: Text(
+                                                    '$recovery',
+                                                    textAlign: TextAlign.right,
+                                                    style:
+                                                        TextStyle(fontSize: 21),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              Card(
-                                child: Container(
-                                  // width: 300,
-                                  width: deviceWidth * 0.80,
-                                  // height: 100,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(20),
-                                    child: Column(
-                                      children: <Widget>[
-                                        Row(children: <Widget>[
-                                          Expanded(
-                                            child: Padding(
-                                              padding:
-                                                  EdgeInsets.only(bottom: 4),
-                                              child: Text(
-                                                'Mortality Rate',
-                                                textAlign: TextAlign.left,
-                                                style: TextStyle(fontSize: 21),
-                                              ),
-                                            ),
-                                          ),
-                                        ]),
-                                        Row(
+                                  Card(
+                                    child: Container(
+                                      // width: 300,
+                                      width: deviceWidth * 0.80,
+                                      // height: 100,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(20),
+                                        child: Column(
                                           children: <Widget>[
-                                            Expanded(
-                                                child: Image.asset(
-                                              'assets/fever.png',
-                                              width: 40,
-                                              height: 40,
-                                              color: Colors.black,
-                                              alignment: Alignment.centerLeft,
-                                            )),
-                                            Expanded(
-                                              child: Text(
-                                                '$mr' + '%',
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(fontSize: 21),
+                                            Row(children: <Widget>[
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom: 4),
+                                                  child: Text(
+                                                    'Mortality Rate',
+                                                    textAlign: TextAlign.left,
+                                                    style:
+                                                        TextStyle(fontSize: 21),
+                                                  ),
+                                                ),
                                               ),
+                                            ]),
+                                            Row(
+                                              children: <Widget>[
+                                                Expanded(
+                                                    child: Image.asset(
+                                                  'assets/fever.png',
+                                                  width: 40,
+                                                  height: 40,
+                                                  color: Colors.black,
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                )),
+                                                Expanded(
+                                                  child: Text(
+                                                    '$mr' + '%',
+                                                    textAlign: TextAlign.right,
+                                                    style:
+                                                        TextStyle(fontSize: 21),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
-              )
-            : Center(
-                child: CircularProgressIndicator(),
-              ),
-      );
-    } else {
-      return new Scaffold(
+                            ),
+                          );
+                        }),
+                  )
+                : Center(
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.grey,
+                      ),
+                    ),
+                  ),
+          ),
+          drawer: DrawerClass(),
+        );
+      } else {
+        return new Scaffold(
           backgroundColor: Color.fromRGBO(246, 246, 246, 1),
+          appBar: new AppBar(
+            title: new Text("COVID-19"),
+            elevation:
+                defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0.0,
+          ),
           body: Column(
             children: <Widget>[
               Padding(
@@ -309,6 +353,15 @@ class _WFClassState extends State<WFClass> {
               ),
               Image.asset('assets/NoInCo2.png'),
             ],
+          ),
+          drawer: DrawerClass(),
+        );
+      }
+    } else {
+      return Scaffold(
+          backgroundColor: Colors.white,
+          body: Center(
+            child: Image.asset('assets/Fight.png'),
           ));
     }
   }

@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -34,10 +33,8 @@ class _DistrictInfoClassState extends State<DistrictInfoClass> {
             v = v['districtData'],
             v.forEach((k, v) => {
                   // print('^^^^^^^^^^^^^ ${k}:  ${v}'),
-                  // v.forEach((k, v) => {
                   obj = {'dis': k, 'info': v},
                   districts.add(obj),
-                  //     })
                 })
           });
 
@@ -111,7 +108,6 @@ class _DistrictInfoClassState extends State<DistrictInfoClass> {
                 });
 
                 if (districts.length == 0) {
-                  // print(districts);
                   districts.add({
                     'selfAdded': 'Yes',
                     'dis': 'No Such District Affected',
@@ -255,7 +251,6 @@ class _DistrictInfoClassState extends State<DistrictInfoClass> {
                                                                           [
                                                                           'recovered']
                                                                       .toString(),
-                                                              // textAlign: TextAlign.left,
                                                               style: TextStyle(
                                                                   fontSize: 19),
                                                             ),
@@ -276,7 +271,13 @@ class _DistrictInfoClassState extends State<DistrictInfoClass> {
                           }),
                     )
                   : Center(
-                      child: CircularProgressIndicator(),
+                      child: Container(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(
+                          backgroundColor: Colors.grey,
+                        ),
+                      ),
                     ),
             ),
           ),
